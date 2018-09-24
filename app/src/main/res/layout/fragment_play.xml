@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/iv_play_page_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/play_page_default_bg" />
+        android:src="@drawable/play_page_default_bg" />-->
 
     <LinearLayout
+        android:focusable="true"
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,13 +67,14 @@
             android:layout_weight="1"
             android:overScrollMode="never" />
 
-        <me.wcy.music.widget.IndicatorLayout
+<!--        <me.wcy.music.widget.IndicatorLayout
             android:id="@+id/il_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp" />-->
 
         <include layout="@layout/include_play_page_controller" />
+        <include layout="@layout/include_txt_list_share" />
     </LinearLayout>
 </FrameLayout>

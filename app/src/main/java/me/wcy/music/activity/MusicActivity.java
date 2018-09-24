@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import me.wcy.music.R;
@@ -52,6 +53,8 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     private ViewPager mViewPager;
     @Bind(R.id.fl_play_bar)
     private FrameLayout flPlayBar;
+    @Bind(R.id.m_play)
+    private LinearLayout mPlay;
 
     private View vNavigationHeader;
     private LocalMusicFragment mLocalMusicFragment;
@@ -159,6 +162,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.fl_play_bar:
+                mPlay.setVisibility(View.GONE);
                 showPlayingFragment();
                 break;
         }
@@ -213,6 +217,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void hidePlayingFragment() {
+        mPlay.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(0, R.anim.fragment_slide_down);
         ft.hide(mPlayFragment);

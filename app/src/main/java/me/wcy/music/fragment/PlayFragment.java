@@ -1,9 +1,8 @@
 package me.wcy.music.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +40,6 @@ import me.wcy.music.utils.SystemUtils;
 import me.wcy.music.utils.ToastUtils;
 import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.widget.AlbumCoverView;
-import me.wcy.music.widget.IndicatorLayout;
 
 /**
  * 正在播放界面
@@ -52,8 +50,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         LrcView.OnPlayClickListener {
     @Bind(R.id.ll_content)
     private LinearLayout llContent;
-    @Bind(R.id.iv_play_page_bg)
-    private ImageView ivPlayingBg;
+/*    @Bind(R.id.iv_play_page_bg)
+    private ImageView ivPlayingBg;*/
     @Bind(R.id.iv_back)
     private ImageView ivBack;
     @Bind(R.id.tv_title)
@@ -62,8 +60,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private TextView tvArtist;
     @Bind(R.id.vp_play_page)
     private ViewPager vpPlay;
-    @Bind(R.id.il_indicator)
-    private IndicatorLayout ilIndicator;
+/*    @Bind(R.id.il_indicator)
+    private IndicatorLayout ilIndicator;*/
     @Bind(R.id.sb_progress)
     private SeekBar sbProgress;
     @Bind(R.id.tv_current_time)
@@ -79,9 +77,9 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     @Bind(R.id.iv_prev)
     private ImageView ivPrev;
     private AlbumCoverView mAlbumCoverView;
-    private LrcView mLrcViewSingle;
-    private LrcView mLrcViewFull;
-    private SeekBar sbVolume;
+    //private LrcView mLrcViewSingle;
+    //private LrcView mLrcViewFull;
+    //private SeekBar sbVolume;
 
     private AudioManager mAudioManager;
     private List<View> mViewPagerContent;
@@ -100,7 +98,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
         initSystemBar();
         initViewPager();
-        ilIndicator.create(mViewPagerContent.size());
+        //ilIndicator.create(mViewPagerContent.size());
         initPlayMode();
         onChangeImpl(AudioPlayer.get().getPlayMusic());
         AudioPlayer.get().addOnPlayEventListener(this);
@@ -110,7 +108,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter(Actions.VOLUME_CHANGED_ACTION);
-        getContext().registerReceiver(mVolumeReceiver, filter);
+        //getContext().registerReceiver(mVolumeReceiver, filter);
     }
 
     @Override
@@ -121,7 +119,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ivPrev.setOnClickListener(this);
         ivNext.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
-        sbVolume.setOnSeekBarChangeListener(this);
+        //sbVolume.setOnSeekBarChangeListener(this);
         vpPlay.addOnPageChangeListener(this);
     }
 
@@ -137,25 +135,25 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     private void initViewPager() {
         View coverView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_cover, null);
-        View lrcView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_lrc, null);
+        //View lrcView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_lrc, null);
         mAlbumCoverView = (AlbumCoverView) coverView.findViewById(R.id.album_cover_view);
-        mLrcViewSingle = (LrcView) coverView.findViewById(R.id.lrc_view_single);
-        mLrcViewFull = (LrcView) lrcView.findViewById(R.id.lrc_view_full);
-        sbVolume = (SeekBar) lrcView.findViewById(R.id.sb_volume);
+        //mLrcViewSingle = (LrcView) coverView.findViewById(R.id.lrc_view_single);
+        //mLrcViewFull = (LrcView) lrcView.findViewById(R.id.lrc_view_full);
+        //sbVolume = (SeekBar) lrcView.findViewById(R.id.sb_volume);
         mAlbumCoverView.initNeedle(AudioPlayer.get().isPlaying());
-        mLrcViewFull.setOnPlayClickListener(this);
+        //mLrcViewFull.setOnPlayClickListener(this);
         initVolume();
 
-        mViewPagerContent = new ArrayList<>(2);
+        mViewPagerContent = new ArrayList<>(1);
         mViewPagerContent.add(coverView);
-        mViewPagerContent.add(lrcView);
+        //mViewPagerContent.add(lrcView);
         vpPlay.setAdapter(new PlayPagerAdapter(mViewPagerContent));
     }
 
     private void initVolume() {
         mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-        sbVolume.setMax(mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        sbVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        //sbVolume.setMax(mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        //sbVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
     }
 
     private void initPlayMode() {
@@ -189,10 +187,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             sbProgress.setProgress(progress);
         }
 
-        if (mLrcViewSingle.hasLrc()) {
+/*        if (mLrcViewSingle.hasLrc()) {
             mLrcViewSingle.updateTime(progress);
             mLrcViewFull.updateTime(progress);
-        }
+        }*/
     }
 
     @Override
@@ -227,7 +225,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void onPageSelected(int position) {
-        ilIndicator.setCurrent(position);
+        //ilIndicator.setCurrent(position);
     }
 
     @Override
@@ -259,17 +257,17 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 int progress = seekBar.getProgress();
                 AudioPlayer.get().seekTo(progress);
 
-                if (mLrcViewSingle.hasLrc()) {
+/*                if (mLrcViewSingle.hasLrc()) {
                     mLrcViewSingle.updateTime(progress);
                     mLrcViewFull.updateTime(progress);
-                }
+                }*/
             } else {
                 seekBar.setProgress(0);
             }
-        } else if (seekBar == sbVolume) {
+        } /*else if (seekBar == sbVolume) {
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, seekBar.getProgress(),
                     AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
-        }
+        }*/
     }
 
     @Override
@@ -353,7 +351,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     private void setCoverAndBg(Music music) {
         mAlbumCoverView.setCoverBitmap(CoverLoader.get().loadRound(music));
-        ivPlayingBg.setImageBitmap(CoverLoader.get().loadBlur(music));
+        vpPlay.setBackground(new BitmapDrawable(getActivity().getResources(),CoverLoader.get().loadBlur(music)));
     }
 
     private void setLrc(final Music music) {
@@ -406,29 +404,29 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     private void loadLrc(String path) {
         File file = new File(path);
-        mLrcViewSingle.loadLrc(file);
-        mLrcViewFull.loadLrc(file);
+        //mLrcViewSingle.loadLrc(file);
+        //mLrcViewFull.loadLrc(file);
     }
 
     private void setLrcLabel(String label) {
-        mLrcViewSingle.setLabel(label);
-        mLrcViewFull.setLabel(label);
+        //mLrcViewSingle.setLabel(label);
+        //mLrcViewFull.setLabel(label);
     }
 
     private String formatTime(long time) {
         return SystemUtils.formatTime("mm:ss", time);
     }
 
-    private BroadcastReceiver mVolumeReceiver = new BroadcastReceiver() {
+/*    private BroadcastReceiver mVolumeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             sbVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         }
-    };
+    };*/
 
     @Override
     public void onDestroy() {
-        getContext().unregisterReceiver(mVolumeReceiver);
+        //getContext().unregisterReceiver(mVolumeReceiver);
         AudioPlayer.get().removeOnPlayEventListener(this);
         super.onDestroy();
     }

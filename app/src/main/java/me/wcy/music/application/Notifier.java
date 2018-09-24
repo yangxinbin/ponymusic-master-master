@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class Notifier {
         if (music == null) {
             return;
         }
+        Log.v("yyyyyy","-----s---");
         playService.startForeground(NOTIFICATION_ID, buildNotification(playService, music, true));
     }
 
@@ -112,6 +114,18 @@ public class Notifier {
         remoteViews.setImageViewResource(R.id.iv_next, getNextIconRes(isLightNotificationTheme));
         remoteViews.setOnClickPendingIntent(R.id.iv_next, nextPendingIntent);
 
+        Intent prevIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
+        prevIntent.putExtra(StatusBarReceiver.EXTRA, StatusBarReceiver.EXTRA_PREV);
+        PendingIntent prevPendingIntent = PendingIntent.getBroadcast(context, 2, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setImageViewResource(R.id.iv_prev, getPrevIconRes(isLightNotificationTheme));
+        remoteViews.setOnClickPendingIntent(R.id.iv_prev, prevPendingIntent);
+
+        Intent stopIntent = new Intent(StatusBarReceiver.ACTION_STATUS_BAR);
+        stopIntent.putExtra(StatusBarReceiver.EXTRA, StatusBarReceiver.EXTRA_STOP);
+        PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, 3, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setImageViewResource(R.id.iv_stop, getStopIconRes(isLightNotificationTheme));
+        remoteViews.setOnClickPendingIntent(R.id.iv_stop, stopPendingIntent);
+
         return remoteViews;
     }
 
@@ -133,6 +147,16 @@ public class Notifier {
                 : R.drawable.ic_status_bar_next_light_selector;
     }
 
+    private int getPrevIconRes(boolean isLightNotificationTheme) {
+        return isLightNotificationTheme
+                ? R.drawable.ic_status_bar_next_dark_selector
+                : R.drawable.ic_status_bar_next_light_selector;
+    }
+    private int getStopIconRes(boolean isLightNotificationTheme) {
+        return isLightNotificationTheme
+                ? R.drawable.ic_status_bar_next_dark_selector
+                : R.drawable.ic_status_bar_next_light_selector;
+    }
     private boolean isLightNotificationTheme(Context context) {
         int notificationTextColor = getNotificationTextColor(context);
         return isSimilarColor(Color.BLACK, notificationTextColor);

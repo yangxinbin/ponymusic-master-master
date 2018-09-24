@@ -46,7 +46,13 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:paddingLeft="10.0dp">
-
+        <ImageView
+            android:id="@+id/iv_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:contentDescription="@null"
+            android:scaleType="center"
+            android:src="@drawable/ic_status_bar_next_dark" />
         <ImageView
             android:id="@+id/iv_play_pause"
             android:layout_width="wrap_content"
@@ -57,6 +63,13 @@
 
         <ImageView
             android:id="@+id/iv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:contentDescription="@null"
+            android:scaleType="center"
+            android:src="@drawable/ic_status_bar_next_dark" />
+        <ImageView
+            android:id="@+id/iv_stop"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:contentDescription="@null"
